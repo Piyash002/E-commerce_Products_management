@@ -1,37 +1,20 @@
-import express, { Response, Request } from 'express'
+import express, { Response, Request, Application } from 'express'
 import cors from 'cors'
-const app = express()
-
-const port = 3000
+import { productRoute } from './app/modules/productsItems/product.route'
+const app: Application = express()
 
 //parser
 app.use(express.json())
 app.use(cors())
 //
+app.use('/', productRoute)
 
-const userRouter = express.Router()
+// app.post('/', (req: Request, res: Response) => {
+//   console.log(req.body)
 
-//application routes
-userRouter.get('/api/products')
-
-app.use('/', userRouter)
-userRouter.get('/create-user', (req: Request, res: Response) => {
-  const user = req.body
-  console.log(user)
-
-  res.json({
-    success: true,
-    message: 'User Created mSuccessfuly',
-    data: user,
-  })
-})
-
-app.post('/', (req: Request, res: Response) => {
-  console.log(req.body)
-
-  res.json({
-    message: 'sucessfully received ',
-  })
-})
+//   res.json({
+//     message: 'sucessfully received ',
+//   })
+// })
 
 export default app

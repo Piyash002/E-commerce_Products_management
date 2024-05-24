@@ -1,8 +1,3 @@
-export type Variant = {
-  type: string
-  value: string
-}
-
 export type Inventory = {
   quantity: number
   inStock: boolean
@@ -13,7 +8,13 @@ export type Product = {
   description: string
   price: number
   category: string
-  tags: string[]
-  variants: Variant[]
-  inventory: Inventory
+  tags: string
+  variants: {
+    type: Array<{ name: string; required: true }>
+    required: true
+  }
+  inventory: {
+    type: Inventory
+    required: true
+  }
 }

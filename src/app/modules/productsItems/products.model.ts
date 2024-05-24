@@ -1,21 +1,6 @@
 import { Schema, model } from 'mongoose'
-const Joi = require('joi')
-import { Inventory, Product, Variant } from './products.interface'
+import { Inventory, Product } from './products.interface'
 
-const variantSchema = new Schema<Variant[]>([
-  {
-    type: {
-      type: String,
-      required: [true, 'type is required'],
-      trim: true,
-    },
-    value: {
-      type: String,
-      required: [true, 'value is required'],
-      trim: true,
-    },
-  },
-])
 const inventorySchema = new Schema<Inventory>({
   quantity: {
     type: Number,
@@ -28,13 +13,28 @@ const inventorySchema = new Schema<Inventory>({
 })
 // 2. Create a Schema corresponding to the document interface.
 const productSchema = new Schema<Product>({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
-  category: { type: String, required: true },
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
   tags: ['computer', 'peripherals', 'wireless', 'ergonomic'],
-  variants: variantSchema,
-  inventory: inventorySchema,
+  variants: Array<{ type: string; required: true }>,
+  inventory: {
+    type: inventorySchema,
+    required: true,
+  },
 })
 // 3. Create a Model.
-export const roductModel = model<Product>('User', productSchema)
+export const productModel = model<Product>('Product', productSchema)

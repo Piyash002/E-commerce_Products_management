@@ -10,11 +10,6 @@ export default [
         ...globals.browser,
         process: 'readonly',
       },
-      extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'prettier',
-      ],
     },
     rules: {
       'no-unused-vars': 'error',
