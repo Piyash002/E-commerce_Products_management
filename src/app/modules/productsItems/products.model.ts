@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { Inventory, Product } from './products.interface'
 
-const inventorySchema = new Schema<Inventory>({
+export const inventorySchema = new Schema<Inventory>({
   quantity: {
     type: Number,
     required: [true, 'quantity is required'],
@@ -12,7 +12,7 @@ const inventorySchema = new Schema<Inventory>({
   },
 })
 // 2. Create a Schema corresponding to the document interface.
-const productSchema = new Schema<Product>({
+export const productSchema = new Schema<Product>({
   name: {
     type: String,
     required: true,
@@ -32,7 +32,7 @@ const productSchema = new Schema<Product>({
   tags: ['computer', 'peripherals', 'wireless', 'ergonomic'],
   variants: Array<{ type: string; required: true }>,
   inventory: {
-    type: inventorySchema,
+    type: [inventorySchema],
     required: true,
   },
 })

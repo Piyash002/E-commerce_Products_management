@@ -8,4 +8,9 @@ router.get(
   '/api/products/:productId',
   productController.retriveSpeicificProduct,
 )
+router.put('/api/products/:productId', productController.updateProduct)
+router.delete(
+  '/api/products/:productId',
+  productController.deleteSpeicificProduct,
+)
 export const productRoute = router
