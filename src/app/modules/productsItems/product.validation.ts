@@ -1,4 +1,4 @@
-const Joi = require('joi')
+import Joi from 'joi'
 
 // Define the Joi schema for a variant
 const variantSchema = Joi.object({

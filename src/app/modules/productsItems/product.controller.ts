@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { productServices } from './product.service'
 import productValidationSchema from './product.validation'
+
 //create  a product
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: Products } = req.body
-    const { error } = productValidationSchema.validate(Products)
+    productValidationSchema.validate(Products)
     const result = await productServices.createProductIntoDB(Products)
-
-    console.log(Products)
 
     //send response
     res.status(200).json({
@@ -27,26 +27,11 @@ const createProduct = async (req: Request, res: Response) => {
   }
 }
 
-//retrive a product
-const retriveAllProducts = async (req: Request, res: Response) => {
-  try {
-    const result = await productServices.retriveAllDatatIntDB()
-    res.status(200).json({
-      success: true,
-      message: 'Products fetched successfully!',
-      data: result,
-    })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 //retrive specific data
 const retriveSpeicificProduct = async (req: Request, res: Response) => {
   try {
     const product = req.params.productId
     const result = await productServices.retriveSpeicificProductIntoDB(product)
-    console.log(product, result)
 
     res.status(200).json({
       success: true,
@@ -75,12 +60,11 @@ const updateProduct = async (req: Request, res: Response) => {
     console.log(error)
   }
 }
-
 //deleteProduct
 const deleteSpeicificProduct = async (req: Request, res: Response) => {
   try {
-    const product = req.params.productId
-    const result = await productServices.deleteSpeicificProductIntoDB(product)
+    const {productId} = req.params
+    const result = await productServices.deleteSpeicificProductIntoDB(productId)
 
     if (!result) {
       return res.status(404).send({
@@ -103,13 +87,29 @@ const deleteSpeicificProduct = async (req: Request, res: Response) => {
     })
   }
 }
-//SearchProduct
-const SearchSpecificProduct = async (req: Request, res: Response) => {}
 
+// SearchProduct and get all product
+const searchspecificProducts = async (req: Request, res: Response) => {
+  const { searchTerm}  = req.query || ''
+ try {
+   const result = await productServices.searchSpecificdata(req.query)
+
+     const message = searchTerm?`Products matching search term '${searchTerm}'fetched successfully!`:`Products fetched successfully!`
+
+   res.status(200).json({
+     success: true,
+     message: message,
+     data: result,
+   })
+ } catch (error) {
+   console.log(error)
+ }
+}
 export const productController = {
   createProduct,
-  retriveAllProducts,
+  searchspecificProducts,
   retriveSpeicificProduct,
   updateProduct,
   deleteSpeicificProduct,
+
 }
